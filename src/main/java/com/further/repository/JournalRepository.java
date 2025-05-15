@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface JournalRepository extends JpaRepository<Journal, Long> {
-    List<Journal> findByUserId(Long user_id);
-    Optional<Journal> findByUserIdAndDateValue(Long user_id, String dateValue);
+    List<Journal> findByUser_Id(Long user_id);
+    Optional<Journal> findByUser_IdAndDateValue(Long user_id, String dateValue);
 }

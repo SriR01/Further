@@ -22,24 +22,24 @@ public class GoalController {
         return goalRepository.save(goal);
     }
 
-    @PutMapping("/{goalId}")
-    public Goal updateGoal(@PathVariable Long id, @RequestBody Goal goal) {
-        goal.setId(id);
+    @PutMapping("/{goal_id}")
+    public Goal updateGoal(@PathVariable Long goal_id, @RequestBody Goal goal) {
+        goal.setId(goal_id);
         return goalRepository.save(goal);
     }
 
-    @DeleteMapping("/delete/{goalId}")
-    public void deleteGoal(@PathVariable Long goalId) {
-        goalRepository.deleteById(goalId);
+    @DeleteMapping("/delete/{goal_id}")
+    public void deleteGoal(@PathVariable Long goal_id) {
+        goalRepository.deleteById(goal_id);
     }
 
-    @GetMapping("/{goalId}")
-    public Goal getGoalById(@PathVariable Long goalId) {
-        return goalRepository.findById(goalId).orElse(null);
+    @GetMapping("/{goal_id}")
+    public Goal getGoalById(@PathVariable Long goal_id) {
+        return goalRepository.findById(goal_id).orElse(null);
     }
 
-    @GetMapping("/users/{userId}")
-    public List<Goal> getAllGoalsByUserId(@PathVariable Long userId) {
-        return goalRepository.findByUserId(userId);
+    @GetMapping("/users/{user_id}")
+    public List<Goal> getAllGoalsByUserId(@PathVariable Long user_id) {
+        return goalRepository.findByUser_Id(user_id);
     }
 }

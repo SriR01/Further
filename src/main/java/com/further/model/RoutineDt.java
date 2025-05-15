@@ -56,11 +56,11 @@ public class RoutineDt {
 
     public RoutineDt() {}
 
-    public Long getRoutine_Dt_Id() {
+    public Long getId() {
         return routine_dt_id;
     }
 
-    public void setRoutine_Dt_Id(Long routine_dt_id) {
+    public void setId(Long routine_dt_id) {
         this.routine_dt_id = routine_dt_id;
     }
 

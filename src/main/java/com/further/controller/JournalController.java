@@ -23,29 +23,29 @@ public class JournalController {
         return journalRepository.save(journal);
     }
 
-    @PutMapping("/{entryId}")
+    @PutMapping("/{entry_id}")
     public Journal updateJournal(@PathVariable Long entry_id, @RequestBody Journal journal) {
         journal.setEntry_id(entry_id);
         return journalRepository.save(journal);
     }
 
-    @DeleteMapping("/delete/{entryId}")
-    public void deleteJournal(@PathVariable Long entryId) {
-        journalRepository.deleteById(entryId);
+    @DeleteMapping("/delete/{entry_id}")
+    public void deleteJournal(@PathVariable Long entry_id) {
+        journalRepository.deleteById(entry_id);
     }
 
-    @GetMapping("/{entryId}")
-    public Journal getJournalById(@PathVariable Long entryId) {
-        return journalRepository.findById(entryId).orElse(null);
+    @GetMapping("/{entry_id}")
+    public Journal getJournalById(@PathVariable Long entry_id) {
+        return journalRepository.findById(entry_id).orElse(null);
     }
 
-    @GetMapping("/{userId}/{dateValue}")
-    public Journal getJournalByUserIdAndDateValue(@PathVariable Long userId, @PathVariable String dateValue){
-        return journalRepository.findByUserIdAndDateValue(userId, dateValue).orElse(null);
+    @GetMapping("/{user_id}/{dateValue}")
+    public Journal getJournalByUserIdAndDateValue(@PathVariable Long user_id, @PathVariable String dateValue){
+        return journalRepository.findByUser_IdAndDateValue(user_id, dateValue).orElse(null);
     }
 
-    @GetMapping("/users/{userId}")
-    public List<Journal> getAllJournalsByUserId(@PathVariable Long userId) {
-        return journalRepository.findByUserId(userId);
+    @GetMapping("/users/{user_id}")
+    public List<Journal> getAllJournalsByUserId(@PathVariable Long user_id) {
+        return journalRepository.findByUser_Id(user_id);
     }
 }

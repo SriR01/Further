@@ -42,11 +42,11 @@ public class User {
         this.activated = true;
     }
 
-    public Long getId() {
+    public Long getUser_Id() {
         return user_id;
     }
 
-    public void setId(Long user_id) {
+    public void setUser_Id(Long user_id) {
         this.user_id = user_id;
     }
 

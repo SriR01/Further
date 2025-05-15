@@ -41,6 +41,6 @@ public class RoutineController {
 
     @GetMapping("/user/{user_id}")
     public List<Routine> getAllRoutinesByUserId(@PathVariable Long user_id) {
-        return routineRepository.findByUserId(user_id);
+        return routineRepository.findByUser_Id(user_id);
     }
 }

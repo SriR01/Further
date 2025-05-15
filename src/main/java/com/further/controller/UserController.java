@@ -17,7 +17,7 @@ public class UserController {
     @GetMapping("/{username}")
     public Long findIdByUsername(@PathVariable String username) {
         return userRepository.findByUsername(username)
-                .map(User::getId)
+                .map(User::getUser_Id)
                 .orElse(null);
     }
 }

@@ -38,11 +38,11 @@ public class CalendarDt {
         this.date_id = date_id;
     }
 
-    public Long getUser_id() {
+    public Long getUser_Id() {
         return user_id;
     }
 
-    public void setUser_id(Long user_id) {
+    public void setUser_Id(Long user_id) {
         this.user_id = user_id;
     }
 

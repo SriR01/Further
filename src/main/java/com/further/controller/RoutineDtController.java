@@ -24,26 +24,27 @@ public class RoutineDtController {
         return routineDtRepository.save(routineDt);
     }
 
-    @PutMapping("/{id}")
-    public RoutineDt updateRoutineDt(@PathVariable Long id, @RequestBody RoutineDt routineDt) {
-        routineDt.setId(id);
+    @PutMapping("/{routine_dt_id}")
+    public RoutineDt updateRoutineDt(@PathVariable Long routine_dt_id, @RequestBody RoutineDt routineDt) {
+        routineDt.setId(routine_dt_id);
         return routineDtRepository.save(routineDt);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void deleteRoutineDt(@PathVariable Long id) {
-        routineDtRepository.deleteById(id);
+    @DeleteMapping("/delete/{routine_dt_id}")
+    public void deleteRoutineDt(@PathVariable("routine_dt_id") Long routine_dt_id) {
+        routineDtRepository.deleteById(routine_dt_id);
     }
 
     @GetMapping("/user/{user_id}")
     public List<RoutineDt> getRoutineDtsByUserId(@PathVariable Long user_id) {
-        return routineDtRepository.findByUserId(user_id);
+        return routineDtRepository.findByUser_Id(user_id);
     }
 
-    @GetMapping("/{id}")
-    public RoutineDt getRoutineDtById(@PathVariable Long id) {
-        return routineDtRepository.findById(id).orElse(null);
+    @GetMapping("/{routine_dt_id}")
+    public RoutineDt getRoutineDtById(@PathVariable Long routine_dt_id) {
+        return routineDtRepository.findById(routine_dt_id).orElse(null);
     }
+    
 
     // If you want to query by userId and date, make sure your repository has this method:
     // Optional<RoutineDt> findByUserIdAndDateCurrent(int userId, LocalDate dateCurrent);
