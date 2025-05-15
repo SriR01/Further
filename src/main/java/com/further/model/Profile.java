@@ -12,14 +12,14 @@ public class Profile {
     private Long profile_id;
 
     @Column(name = "user_id")
-    private int user_id;
+    private Long user_id;
     private String bio;
 
     private String email;
     private String first_name;
     private String last_name;
 
-    public Profile(Long profile_id, int user_id, String bio, String email, String first_name, String last_name) {
+    public Profile(Long profile_id, Long user_id, String bio, String email, String first_name, String last_name) {
         this.profile_id = profile_id;
         this.user_id = user_id;
         this.bio = bio;
@@ -31,11 +31,19 @@ public class Profile {
     public Profile() {
     }
 
-    public int getUser_id() {
+    public Long getProfile_id() {
+        return profile_id;
+    }
+
+    public void setProfile_id(Long profile_id) {
+        this.profile_id = profile_id;
+    }
+
+    public Long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(Long user_id) {
         this.user_id = user_id;
     }
 

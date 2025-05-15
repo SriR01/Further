@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RoutineDtRepository extends JpaRepository<RoutineDt, Long> {
-    List<RoutineDt> findByUserId(int user_id);
-    List<RoutineDt> findByRoutineId(int routine_id);
+    List<RoutineDt> findByUserId(Long user_id);
+    List<RoutineDt> findByRoutineId(Long routine_id);
 }

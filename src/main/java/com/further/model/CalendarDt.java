@@ -1,4 +1,5 @@
 package com.further.model;
+
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
@@ -9,9 +10,10 @@ public class CalendarDt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "date_id")
-    private Long id;
+    private Long date_id;
 
-    private int user_id;
+    @Column(name = "user_id")
+    private Long user_id;
 
     private LocalDate dates;
 
@@ -21,34 +23,32 @@ public class CalendarDt {
 
     public CalendarDt() {}
 
-    public CalendarDt(Long id, int user_id, LocalDate dates, Routine routine) {
-        this.id = id;
+    public CalendarDt(Long date_id, Long user_id, LocalDate dates, Routine routine) {
+        this.date_id = date_id;
         this.user_id = user_id;
         this.dates = dates;
         this.routine = routine;
     }
 
     public Long getId() {
-        return id;
+        return date_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long date_id) {
+        this.date_id = date_id;
     }
 
-    public int getUser_id() {
+    public Long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(Long user_id) {
         this.user_id = user_id;
     }
 
     public LocalDate getDates() {
         return dates;
     }
-
-    // Do I need this for for dates or single date?
 
     public void setDates(LocalDate dates) {
         this.dates = dates;

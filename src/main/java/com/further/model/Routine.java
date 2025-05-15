@@ -12,7 +12,7 @@ public class Routine {
     @Column(name = "routine_id")
     private Long routine_id;
 
-    private int user_id;
+    private Long user_id;
     private String routine_name;
     private Timestamp start_time;
     private Timestamp end_time;
@@ -22,7 +22,7 @@ public class Routine {
     private String goal_4;
     private String goal_5;
 
-    public Routine(Long routine_id, int user_id, String routine_name, Timestamp start_time, Timestamp end_time, String goal_1, String goal_2,
+    public Routine(Long routine_id, Long user_id, String routine_name, Timestamp start_time, Timestamp end_time, String goal_1, String goal_2,
                    String goal_3, String goal_4, String goal_5) {
         this.routine_id = routine_id;
         this.user_id = user_id;
@@ -46,11 +46,11 @@ public class Routine {
         this.routine_id = routine_id;
     }
 
-    public int getUser_id() {
+    public Long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(Long user_id) {
         this.user_id = user_id;
     }
 

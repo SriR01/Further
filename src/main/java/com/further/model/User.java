@@ -11,7 +11,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long user_id;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -34,20 +34,20 @@ public class User {
 
     public User() { }
 
-    public User(int id, String username, String password, Set<Authority> authorities) {
-        this.id = id;
+    public User(Long user_id, String username, String password, Set<Authority> authorities) {
+        this.user_id = user_id;
         this.username = username;
         this.password = password;
         this.authorities = authorities;
         this.activated = true;
     }
 
-    public int getId() {
-        return id;
+    public Long getId() {
+        return user_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(Long user_id) {
+        this.user_id = user_id;
     }
 
     public String getUsername() {
@@ -87,7 +87,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id &&
+        return user_id == user.user_id &&
                 activated == user.activated &&
                 Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
@@ -96,13 +96,13 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, activated, authorities);
+        return Objects.hash(user_id, username, password, activated, authorities);
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "id=" + user_id +
                 ", username='" + username + '\'' +
                 ", activated=" + activated +
                 ", authorities=" + authorities +

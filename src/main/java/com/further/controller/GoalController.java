@@ -23,23 +23,23 @@ public class GoalController {
     }
 
     @PutMapping("/{goalId}")
-    public Goal updateGoal(@PathVariable Long goal_id, @RequestBody Goal goal) {
-        goal.setGoal_id(goal_id);
+    public Goal updateGoal(@PathVariable Long id, @RequestBody Goal goal) {
+        goal.setId(id);
         return goalRepository.save(goal);
     }
 
     @DeleteMapping("/delete/{goalId}")
-    public void deleteGoal(@PathVariable int goalId) {
+    public void deleteGoal(@PathVariable Long goalId) {
         goalRepository.deleteById(goalId);
     }
 
     @GetMapping("/{goalId}")
-    public Goal getGoalById(@PathVariable int goalId) {
+    public Goal getGoalById(@PathVariable Long goalId) {
         return goalRepository.findById(goalId).orElse(null);
     }
 
     @GetMapping("/users/{userId}")
-    public List<Goal> getAllGoalsByUserId(@PathVariable int userId) {
+    public List<Goal> getAllGoalsByUserId(@PathVariable Long userId) {
         return goalRepository.findByUserId(userId);
     }
 }

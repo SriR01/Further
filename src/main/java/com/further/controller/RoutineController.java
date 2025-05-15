@@ -30,17 +30,17 @@ public class RoutineController {
     }
 
     @DeleteMapping("/delete/{routine_id}")
-    public void deleteRoutine(@PathVariable int routine_id) {
+    public void deleteRoutine(@PathVariable Long routine_id) {
         routineRepository.deleteById(routine_id);
     }
 
     @GetMapping("/{routine_id}")
-    public Routine getRoutineById(@PathVariable int routine_id) {
+    public Routine getRoutineById(@PathVariable Long routine_id) {
         return routineRepository.findById(routine_id).orElse(null);
     }
 
     @GetMapping("/user/{user_id}")
-    public List<Routine> getAllRoutinesByUserId(@PathVariable int user_id) {
+    public List<Routine> getAllRoutinesByUserId(@PathVariable Long user_id) {
         return routineRepository.findByUserId(user_id);
     }
 }

@@ -10,17 +10,16 @@ public class Journal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "entry_id")
-    private static final long serialVersionUID = 1L;
-    private Long entry_id;
+    @Column(name = "journal_id")
+    private Long journal_id;
 
-    private int user_id;
+    private Long user_id;
     private String entry_subject;
     private String entry_data;
     private LocalDate entry_date;
 
-    public Journal(Long entry_id, int user_id, String entry_subject, String entry_data, LocalDate entry_date) {
-        this.entry_id = entry_id;
+    public Journal(Long journal_id, Long user_id, String entry_subject, String entry_data, LocalDate entry_date) {
+        this.journal_id = journal_id;
         this.user_id = user_id;
         this.entry_subject = entry_subject;
         this.entry_data = entry_data;
@@ -30,19 +29,19 @@ public class Journal {
     public Journal() {
     }
 
-    public Long getEntry_id() {
-        return entry_id;
+    public Long getJournal_id() {
+        return journal_id;
     }
 
-    public void setEntry_id(Long entry_id) {
-        this.entry_id = entry_id;
+    public void setEntry_id(Long journal_id) {
+        this.journal_id = journal_id;
     }
 
-    public int getUser_id() {
+    public Long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(Long user_id) {
         this.user_id = user_id;
     }
 

@@ -22,18 +22,18 @@ public class ProfileController {
     }
 
     @PutMapping("/{user_id}")
-    public Profile updateProfile(@PathVariable int user_id, @RequestBody Profile profile) {
+    public Profile updateProfile(@PathVariable Long user_id, @RequestBody Profile profile) {
         profile.setUser_id(user_id);
         return profileRepository.save(profile);
     }
 
     @DeleteMapping("/delete/{user_id}")
-    public void deleteProfile(@PathVariable int user_id) {
+    public void deleteProfile(@PathVariable Long user_id) {
         profileRepository.deleteById(user_id);
     }
 
     @GetMapping("/{user_id}")
-    public Profile getProfileByUserId(@PathVariable int user_id) {
+    public Profile getProfileByUserId(@PathVariable Long user_id) {
         return profileRepository.findById(user_id).orElse(null);
     }
 }

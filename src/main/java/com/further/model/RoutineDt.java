@@ -1,4 +1,5 @@
 package com.further.model;
+
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import jakarta.persistence.*;
@@ -10,13 +11,14 @@ public class RoutineDt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "routine_dt_id")
-    private Long id;
+    private Long routine_dt_id;
 
-    @ManyToOne
-    @JoinColumn(name = "routine_id", referencedColumnName = "routine_id")
-    private Routine routine;
+    @Column(name = "routine_id")
+    private Long routine_id;
 
-    private int user_id;
+    @Column(name = "user_id")
+    private Long user_id;
+
     private LocalDate date_current;
     private Boolean goal_1_flag;
     private Boolean goal_2_flag;
@@ -31,11 +33,11 @@ public class RoutineDt {
     private Boolean win_flag;
     private Timestamp win_flag_time;
 
-    public RoutineDt(Routine routine, int user_id, LocalDate date_current, Boolean goal_1_flag, Boolean goal_2_flag, Boolean goal_3_flag,
+    public RoutineDt(Long routine_id, Long user_id, LocalDate date_current, Boolean goal_1_flag, Boolean goal_2_flag, Boolean goal_3_flag,
                      Boolean goal_4_flag, Boolean goal_5_flag, Timestamp goal_1_flag_time, Timestamp goal_2_flag_time,
                      Timestamp goal_3_flag_time, Timestamp goal_4_flag_time, Timestamp goal_5_flag_time,
                      Boolean win_flag, Timestamp win_flag_time) {
-        this.routine = routine;
+        this.routine_id = routine_id;
         this.user_id = user_id;
         this.date_current = date_current;
         this.goal_1_flag = goal_1_flag;
@@ -54,24 +56,28 @@ public class RoutineDt {
 
     public RoutineDt() {}
 
-    public Long getId() {
-        return id;
+    public Long getRoutine_Dt_Id() {
+        return routine_dt_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRoutine_Dt_Id(Long routine_dt_id) {
+        this.routine_dt_id = routine_dt_id;
     }
 
-    public Routine getRoutine() {
-        return routine;
+    public Long getRoutine_id() {
+        return routine_id;
     }
 
-    public void setRoutine(Routine routine) {
-        this.routine = routine;
+    public void setRoutine_id(Long routine_id) {
+        this.routine_id = routine_id;
     }
 
-    public int getUser_id() {
+    public Long getUser_id() {
         return user_id;
+    }
+
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 
     public LocalDate getDate_current() {
@@ -176,10 +182,5 @@ public class RoutineDt {
 
     public void setWin_flag_time(Timestamp win_flag_time) {
         this.win_flag_time = win_flag_time;
-    }
-
-    public void setUser_id(Long id2) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setUser_id'");
     }
 }

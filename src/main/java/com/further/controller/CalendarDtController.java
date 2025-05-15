@@ -25,12 +25,12 @@ public class CalendarDtController {
     }
 
     @DeleteMapping("/delete/{date_id}")
-    public void deleteCalendarDt(@PathVariable int date_id) {
+    public void deleteCalendarDt(@PathVariable Long date_id) {
         calendarDtRepository.deleteById(date_id);
     }
 
     @PutMapping("/{date_id}")
-    public CalendarDt updateCalendarDt(@PathVariable int date_id, @RequestBody CalendarDt calendarDt) {
+    public CalendarDt updateCalendarDt(@PathVariable Long date_id, @RequestBody CalendarDt calendarDt) {
         Optional<CalendarDt> existingOpt = calendarDtRepository.findById(date_id);
         if (existingOpt.isEmpty()) {
             throw new RuntimeException("CalendarDt not found");
@@ -44,12 +44,12 @@ public class CalendarDtController {
     }
 
     @GetMapping("/getdts/{user_id}")
-    public List<CalendarDt> getAllCalendarDtFromUserId(@PathVariable int user_id) {
+    public List<CalendarDt> getAllCalendarDtFromUserId(@PathVariable Long user_id) {
         return calendarDtRepository.findByUserId(user_id);
     }
 
     @GetMapping("/getdt/{date_id}")
-    public CalendarDt getCalendarDtFromDateId(@PathVariable int date_id) {
+    public CalendarDt getCalendarDtFromDateId(@PathVariable Long date_id) {
         Optional<CalendarDt> result = calendarDtRepository.findById(date_id);
         return result.orElse(null);
     }

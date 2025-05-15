@@ -36,7 +36,7 @@ public class RoutineDtController {
     }
 
     @GetMapping("/user/{user_id}")
-    public List<RoutineDt> getRoutineDtsByUserId(@PathVariable int user_id) {
+    public List<RoutineDt> getRoutineDtsByUserId(@PathVariable Long user_id) {
         return routineDtRepository.findByUserId(user_id);
     }
 

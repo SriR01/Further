@@ -30,22 +30,22 @@ public class JournalController {
     }
 
     @DeleteMapping("/delete/{entryId}")
-    public void deleteJournal(@PathVariable int entryId) {
+    public void deleteJournal(@PathVariable Long entryId) {
         journalRepository.deleteById(entryId);
     }
 
     @GetMapping("/{entryId}")
-    public Journal getJournalById(@PathVariable int entryId) {
+    public Journal getJournalById(@PathVariable Long entryId) {
         return journalRepository.findById(entryId).orElse(null);
     }
 
     @GetMapping("/{userId}/{dateValue}")
-    public Journal getJournalByUserIdAndDateValue(@PathVariable int userId, @PathVariable String dateValue){
+    public Journal getJournalByUserIdAndDateValue(@PathVariable Long userId, @PathVariable String dateValue){
         return journalRepository.findByUserIdAndDateValue(userId, dateValue).orElse(null);
     }
 
     @GetMapping("/users/{userId}")
-    public List<Journal> getAllJournalsByUserId(@PathVariable int userId) {
+    public List<Journal> getAllJournalsByUserId(@PathVariable Long userId) {
         return journalRepository.findByUserId(userId);
     }
 }

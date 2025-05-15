@@ -3,6 +3,6 @@ import com.further.model.Routine;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
-public interface RoutineRepository extends JpaRepository<Routine, Integer> {
-    List<Routine> findByUserId(int user_id);
+public interface RoutineRepository extends JpaRepository<Routine, Long> {
+    List<Routine> findByUserId(Long user_id);
 }
