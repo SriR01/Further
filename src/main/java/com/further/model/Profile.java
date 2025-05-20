@@ -9,42 +9,45 @@ public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "profile_id")
-    private Long profile_id;
+    private Long profileId;
 
     @Column(name = "user_id")
-    private Long user_id;
+    private Long userId;
+
     private String bio;
-
     private String email;
-    private String first_name;
-    private String last_name;
 
-    public Profile(Long profile_id, Long user_id, String bio, String email, String first_name, String last_name) {
-        this.profile_id = profile_id;
-        this.user_id = user_id;
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    public Profile(Long profileId, Long userId, String bio, String email, String firstName, String lastName) {
+        this.profileId = profileId;
+        this.userId = userId;
         this.bio = bio;
         this.email = email;
-        this.first_name = first_name;
-        this.last_name = last_name;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
-    public Profile() {
+    public Profile() {}
+
+    public Long getProfileId() {
+        return profileId;
     }
 
-    public Long getProfile_id() {
-        return profile_id;
+    public void setProfileId(Long profileId) {
+        this.profileId = profileId;
     }
 
-    public void setProfile_id(Long profile_id) {
-        this.profile_id = profile_id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public Long getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getBio() {
@@ -63,19 +66,19 @@ public class Profile {
         this.email = email;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

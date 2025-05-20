@@ -23,7 +23,7 @@ public class ProfileController {
 
     @PutMapping("/{user_id}")
     public Profile updateProfile(@PathVariable Long user_id, @RequestBody Profile profile) {
-        profile.setUser_id(user_id);
+        profile.setUserId(user_id);
         return profileRepository.save(profile);
     }
 

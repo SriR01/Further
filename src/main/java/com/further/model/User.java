@@ -1,53 +1,47 @@
 package com.further.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
-@Table(name = "users") // Use "users" to avoid reserved word conflicts
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    @Column(name = "user_id")
+    private Long userId;
 
     @Column(nullable = false, unique = true)
     private String username;
 
     @JsonIgnore
-    @Column(nullable = false)
+    @Column(name = "password_hash", nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private String role;
 
     @JsonIgnore
     @Column(nullable = false)
     private boolean activated = true;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "user_authority",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "authority_id")
-    )
-    private Set<Authority> authorities = new HashSet<>();
-
     public User() { }
 
-    public User(Long user_id, String username, String password, Set<Authority> authorities) {
-        this.user_id = user_id;
+    public User(Long userId, String username, String password, String role, boolean activated) {
+        this.userId = userId;
         this.username = username;
         this.password = password;
-        this.authorities = authorities;
-        this.activated = true;
+        this.role = role;
+        this.activated = activated;
     }
 
-    public Long getUser_Id() {
-        return user_id;
+    public Long getId() {
+        return userId;
     }
 
-    public void setUser_Id(Long user_id) {
-        this.user_id = user_id;
+    public void setId(Long userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -66,6 +60,14 @@ public class User {
         this.password = password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public boolean isActivated() {
         return activated;
     }
@@ -74,38 +76,30 @@ public class User {
         this.activated = activated;
     }
 
-    public Set<Authority> getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(Set<Authority> authorities) {
-        this.authorities = authorities;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return user_id == user.user_id &&
+        return Objects.equals(userId, user.userId) &&
                 activated == user.activated &&
                 Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
-                Objects.equals(authorities, user.authorities);
+                Objects.equals(role, user.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(user_id, username, password, activated, authorities);
+        return Objects.hash(userId, username, password, role, activated);
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + user_id +
+                "id=" + userId +
                 ", username='" + username + '\'' +
+                ", role='" + role + '\'' +
                 ", activated=" + activated +
-                ", authorities=" + authorities +
                 '}';
     }
 }

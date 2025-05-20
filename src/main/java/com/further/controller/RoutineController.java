@@ -25,7 +25,7 @@ public class RoutineController {
 
     @PutMapping("/{routine_id}")
     public Routine updateRoutine(@PathVariable Long routine_id, @RequestBody Routine routine) {
-        routine.setRoutine_id(routine_id);
+        routine.setRoutineId(routine_id);
         return routineRepository.save(routine);
     }
 
@@ -41,6 +41,6 @@ public class RoutineController {
 
     @GetMapping("/user/{user_id}")
     public List<Routine> getAllRoutinesByUserId(@PathVariable Long user_id) {
-        return routineRepository.findByUser_Id(user_id);
+        return routineRepository.findByUserId(user_id);
     }
 }

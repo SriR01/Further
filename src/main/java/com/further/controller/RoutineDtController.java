@@ -26,7 +26,7 @@ public class RoutineDtController {
 
     @PutMapping("/{routine_dt_id}")
     public RoutineDt updateRoutineDt(@PathVariable Long routine_dt_id, @RequestBody RoutineDt routineDt) {
-        routineDt.setId(routine_dt_id);
+        routineDt.setRoutineId(routine_dt_id);
         return routineDtRepository.save(routineDt);
     }
 
@@ -37,7 +37,7 @@ public class RoutineDtController {
 
     @GetMapping("/user/{user_id}")
     public List<RoutineDt> getRoutineDtsByUserId(@PathVariable Long user_id) {
-        return routineDtRepository.findByUser_Id(user_id);
+        return routineDtRepository.findByUserId(user_id);
     }
 
     @GetMapping("/{routine_dt_id}")

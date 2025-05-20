@@ -10,10 +10,10 @@ public class CalendarDt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "date_id")
-    private Long date_id;
+    private Long dateId;
 
     @Column(name = "user_id")
-    private Long user_id;
+    private Long userId;
 
     private LocalDate dates;
 
@@ -23,27 +23,27 @@ public class CalendarDt {
 
     public CalendarDt() {}
 
-    public CalendarDt(Long date_id, Long user_id, LocalDate dates, Routine routine) {
-        this.date_id = date_id;
-        this.user_id = user_id;
+    public CalendarDt(Long dateId, Long userId, LocalDate dates, Routine routine) {
+        this.dateId = dateId;
+        this.userId = userId;
         this.dates = dates;
         this.routine = routine;
     }
 
-    public Long getId() {
-        return date_id;
+    public Long getDateId() {
+        return dateId;
     }
 
-    public void setId(Long date_id) {
-        this.date_id = date_id;
+    public void setDateId(Long dateId) {
+        this.dateId = dateId;
     }
 
-    public Long getUser_Id() {
-        return user_id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser_Id(Long user_id) {
-        this.user_id = user_id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public LocalDate getDates() {

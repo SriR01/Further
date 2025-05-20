@@ -11,176 +11,201 @@ public class RoutineDt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "routine_dt_id")
-    private Long routine_dt_id;
+    private Long routineDtId;
 
     @Column(name = "routine_id")
-    private Long routine_id;
+    private Long routineId;
 
     @Column(name = "user_id")
-    private Long user_id;
+    private Long userId;
 
-    private LocalDate date_current;
-    private Boolean goal_1_flag;
-    private Boolean goal_2_flag;
-    private Boolean goal_3_flag;
-    private Boolean goal_4_flag;
-    private Boolean goal_5_flag;
-    private Timestamp goal_1_flag_time;
-    private Timestamp goal_2_flag_time;
-    private Timestamp goal_3_flag_time;
-    private Timestamp goal_4_flag_time;
-    private Timestamp goal_5_flag_time;
-    private Boolean win_flag;
-    private Timestamp win_flag_time;
+    @Column(name = "date_current")
+    private LocalDate dateCurrent;
 
-    public RoutineDt(Long routine_id, Long user_id, LocalDate date_current, Boolean goal_1_flag, Boolean goal_2_flag, Boolean goal_3_flag,
-                     Boolean goal_4_flag, Boolean goal_5_flag, Timestamp goal_1_flag_time, Timestamp goal_2_flag_time,
-                     Timestamp goal_3_flag_time, Timestamp goal_4_flag_time, Timestamp goal_5_flag_time,
-                     Boolean win_flag, Timestamp win_flag_time) {
-        this.routine_id = routine_id;
-        this.user_id = user_id;
-        this.date_current = date_current;
-        this.goal_1_flag = goal_1_flag;
-        this.goal_2_flag = goal_2_flag;
-        this.goal_3_flag = goal_3_flag;
-        this.goal_4_flag = goal_4_flag;
-        this.goal_5_flag = goal_5_flag;
-        this.goal_1_flag_time = goal_1_flag_time;
-        this.goal_2_flag_time = goal_2_flag_time;
-        this.goal_3_flag_time = goal_3_flag_time;
-        this.goal_4_flag_time = goal_4_flag_time;
-        this.goal_5_flag_time = goal_5_flag_time;
-        this.win_flag = win_flag;
-        this.win_flag_time = win_flag_time;
+    @Column(name = "goal_1_flag")
+    private Boolean goal1Flag;
+
+    @Column(name = "goal_2_flag")
+    private Boolean goal2Flag;
+
+    @Column(name = "goal_3_flag")
+    private Boolean goal3Flag;
+
+    @Column(name = "goal_4_flag")
+    private Boolean goal4Flag;
+
+    @Column(name = "goal_5_flag")
+    private Boolean goal5Flag;
+
+    @Column(name = "goal_1_flag_time")
+    private Timestamp goal1FlagTime;
+
+    @Column(name = "goal_2_flag_time")
+    private Timestamp goal2FlagTime;
+
+    @Column(name = "goal_3_flag_time")
+    private Timestamp goal3FlagTime;
+
+    @Column(name = "goal_4_flag_time")
+    private Timestamp goal4FlagTime;
+
+    @Column(name = "goal_5_flag_time")
+    private Timestamp goal5FlagTime;
+
+    @Column(name = "win_flag")
+    private Boolean winFlag;
+
+    @Column(name = "win_flag_time")
+    private Timestamp winFlagTime;
+
+    public RoutineDt(Long routineId, Long userId, LocalDate dateCurrent, Boolean goal1Flag, Boolean goal2Flag, Boolean goal3Flag,
+                     Boolean goal4Flag, Boolean goal5Flag, Timestamp goal1FlagTime, Timestamp goal2FlagTime,
+                     Timestamp goal3FlagTime, Timestamp goal4FlagTime, Timestamp goal5FlagTime,
+                     Boolean winFlag, Timestamp winFlagTime) {
+        this.routineId = routineId;
+        this.userId = userId;
+        this.dateCurrent = dateCurrent;
+        this.goal1Flag = goal1Flag;
+        this.goal2Flag = goal2Flag;
+        this.goal3Flag = goal3Flag;
+        this.goal4Flag = goal4Flag;
+        this.goal5Flag = goal5Flag;
+        this.goal1FlagTime = goal1FlagTime;
+        this.goal2FlagTime = goal2FlagTime;
+        this.goal3FlagTime = goal3FlagTime;
+        this.goal4FlagTime = goal4FlagTime;
+        this.goal5FlagTime = goal5FlagTime;
+        this.winFlag = winFlag;
+        this.winFlagTime = winFlagTime;
     }
 
     public RoutineDt() {}
 
-    public Long getId() {
-        return routine_dt_id;
+    public Long getRoutineDtId() {
+        return routineDtId;
     }
 
-    public void setId(Long routine_dt_id) {
-        this.routine_dt_id = routine_dt_id;
+    public void setRoutineDtId(Long routineDtId) {
+        this.routineDtId = routineDtId;
     }
 
-    public Long getRoutine_id() {
-        return routine_id;
+    public Long getRoutineId() {
+        return routineId;
     }
 
-    public void setRoutine_id(Long routine_id) {
-        this.routine_id = routine_id;
+    public void setRoutineId(Long routineId) {
+        this.routineId = routineId;
     }
 
-    public Long getUser_id() {
-        return user_id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public LocalDate getDate_current() {
-        return date_current;
+    public LocalDate getDateCurrent() {
+        return dateCurrent;
     }
 
-    public void setDate_current(LocalDate date_current) {
-        this.date_current = date_current;
+    public void setDateCurrent(LocalDate dateCurrent) {
+        this.dateCurrent = dateCurrent;
     }
 
-    public Boolean getGoal_1_flag() {
-        return goal_1_flag;
+    public Boolean getGoal1Flag() {
+        return goal1Flag;
     }
 
-    public void setGoal_1_flag(Boolean goal_1_flag) {
-        this.goal_1_flag = goal_1_flag;
+    public void setGoal1Flag(Boolean goal1Flag) {
+        this.goal1Flag = goal1Flag;
     }
 
-    public Boolean getGoal_2_flag() {
-        return goal_2_flag;
+    public Boolean getGoal2Flag() {
+        return goal2Flag;
     }
 
-    public void setGoal_2_flag(Boolean goal_2_flag) {
-        this.goal_2_flag = goal_2_flag;
+    public void setGoal2Flag(Boolean goal2Flag) {
+        this.goal2Flag = goal2Flag;
     }
 
-    public Boolean getGoal_3_flag() {
-        return goal_3_flag;
+    public Boolean getGoal3Flag() {
+        return goal3Flag;
     }
 
-    public void setGoal_3_flag(Boolean goal_3_flag) {
-        this.goal_3_flag = goal_3_flag;
+    public void setGoal3Flag(Boolean goal3Flag) {
+        this.goal3Flag = goal3Flag;
     }
 
-    public Boolean getGoal_4_flag() {
-        return goal_4_flag;
+    public Boolean getGoal4Flag() {
+        return goal4Flag;
     }
 
-    public void setGoal_4_flag(Boolean goal_4_flag) {
-        this.goal_4_flag = goal_4_flag;
+    public void setGoal4Flag(Boolean goal4Flag) {
+        this.goal4Flag = goal4Flag;
     }
 
-    public Boolean getGoal_5_flag() {
-        return goal_5_flag;
+    public Boolean getGoal5Flag() {
+        return goal5Flag;
     }
 
-    public void setGoal_5_flag(Boolean goal_5_flag) {
-        this.goal_5_flag = goal_5_flag;
+    public void setGoal5Flag(Boolean goal5Flag) {
+        this.goal5Flag = goal5Flag;
     }
 
-    public Timestamp getGoal_1_flag_time() {
-        return goal_1_flag_time;
+    public Timestamp getGoal1FlagTime() {
+        return goal1FlagTime;
     }
 
-    public void setGoal_1_flag_time(Timestamp goal_1_flag_time) {
-        this.goal_1_flag_time = goal_1_flag_time;
+    public void setGoal1FlagTime(Timestamp goal1FlagTime) {
+        this.goal1FlagTime = goal1FlagTime;
     }
 
-    public Timestamp getGoal_2_flag_time() {
-        return goal_2_flag_time;
+    public Timestamp getGoal2FlagTime() {
+        return goal2FlagTime;
     }
 
-    public void setGoal_2_flag_time(Timestamp goal_2_flag_time) {
-        this.goal_2_flag_time = goal_2_flag_time;
+    public void setGoal2FlagTime(Timestamp goal2FlagTime) {
+        this.goal2FlagTime = goal2FlagTime;
     }
 
-    public Timestamp getGoal_3_flag_time() {
-        return goal_3_flag_time;
+    public Timestamp getGoal3FlagTime() {
+        return goal3FlagTime;
     }
 
-    public void setGoal_3_flag_time(Timestamp goal_3_flag_time) {
-        this.goal_3_flag_time = goal_3_flag_time;
+    public void setGoal3FlagTime(Timestamp goal3FlagTime) {
+        this.goal3FlagTime = goal3FlagTime;
     }
 
-    public Timestamp getGoal_4_flag_time() {
-        return goal_4_flag_time;
+    public Timestamp getGoal4FlagTime() {
+        return goal4FlagTime;
     }
 
-    public void setGoal_4_flag_time(Timestamp goal_4_flag_time) {
-        this.goal_4_flag_time = goal_4_flag_time;
+    public void setGoal4FlagTime(Timestamp goal4FlagTime) {
+        this.goal4FlagTime = goal4FlagTime;
     }
 
-    public Timestamp getGoal_5_flag_time() {
-        return goal_5_flag_time;
+    public Timestamp getGoal5FlagTime() {
+        return goal5FlagTime;
     }
 
-    public void setGoal_5_flag_time(Timestamp goal_5_flag_time) {
-        this.goal_5_flag_time = goal_5_flag_time;
+    public void setGoal5FlagTime(Timestamp goal5FlagTime) {
+        this.goal5FlagTime = goal5FlagTime;
     }
 
-    public Boolean getWin_flag() {
-        return win_flag;
+    public Boolean getWinFlag() {
+        return winFlag;
     }
 
-    public void setWin_flag(Boolean win_flag) {
-        this.win_flag = win_flag;
+    public void setWinFlag(Boolean winFlag) {
+        this.winFlag = winFlag;
     }
 
-    public Timestamp getWin_flag_time() {
-        return win_flag_time;
+    public Timestamp getWinFlagTime() {
+        return winFlagTime;
     }
 
-    public void setWin_flag_time(Timestamp win_flag_time) {
-        this.win_flag_time = win_flag_time;
+    public void setWinFlagTime(Timestamp winFlagTime) {
+        this.winFlagTime = winFlagTime;
     }
 }

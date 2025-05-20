@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import com.further.model.Journal;
 
 import java.util.List;
+import java.time.LocalDate;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8088")
@@ -25,7 +26,7 @@ public class JournalController {
 
     @PutMapping("/{entry_id}")
     public Journal updateJournal(@PathVariable Long entry_id, @RequestBody Journal journal) {
-        journal.setEntry_id(entry_id);
+        journal.setJournalId(entry_id);
         return journalRepository.save(journal);
     }
 
@@ -39,13 +40,13 @@ public class JournalController {
         return journalRepository.findById(entry_id).orElse(null);
     }
 
-    @GetMapping("/{user_id}/{dateValue}")
-    public Journal getJournalByUserIdAndDateValue(@PathVariable Long user_id, @PathVariable String dateValue){
-        return journalRepository.findByUser_IdAndDateValue(user_id, dateValue).orElse(null);
+    @GetMapping("/{user_id}/{entryDate}")
+    public Journal getJournalByUserIdAndEntryDate(@PathVariable Long user_id, @PathVariable String entryDate) {
+        return journalRepository.findByUserIdAndEntryDate(user_id, LocalDate.parse(entryDate)).orElse(null);
     }
 
     @GetMapping("/users/{user_id}")
     public List<Journal> getAllJournalsByUserId(@PathVariable Long user_id) {
-        return journalRepository.findByUser_Id(user_id);
+        return journalRepository.findByUserId(user_id);
     }
 }

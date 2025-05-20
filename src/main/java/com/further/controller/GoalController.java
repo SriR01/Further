@@ -24,7 +24,7 @@ public class GoalController {
 
     @PutMapping("/{goal_id}")
     public Goal updateGoal(@PathVariable Long goal_id, @RequestBody Goal goal) {
-        goal.setId(goal_id);
+        goal.setGoalId(goal_id);
         return goalRepository.save(goal);
     }
 
@@ -40,6 +40,6 @@ public class GoalController {
 
     @GetMapping("/users/{user_id}")
     public List<Goal> getAllGoalsByUserId(@PathVariable Long user_id) {
-        return goalRepository.findByUser_Id(user_id);
+        return goalRepository.findByUserId(user_id);
     }
 }

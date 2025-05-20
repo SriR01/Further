@@ -36,7 +36,7 @@ public class CalendarDtController {
             throw new RuntimeException("CalendarDt not found");
         }
         CalendarDt existing = existingOpt.get();
-        existing.setUser_Id(calendarDt.getUser_Id());
+        existing.setUserId(calendarDt.getUserId());
         existing.setDates(calendarDt.getDates());
         existing.setRoutine(calendarDt.getRoutine());
         // Add other fields to update as needed
@@ -45,7 +45,7 @@ public class CalendarDtController {
 
     @GetMapping("/getdts/{user_id}")
     public List<CalendarDt> getAllCalendarDtFromUserId(@PathVariable Long user_id) {
-        return calendarDtRepository.findByUser_id(user_id);
+        return calendarDtRepository.findByUserId(user_id);
     }
 
     @GetMapping("/getdt/{date_id}")

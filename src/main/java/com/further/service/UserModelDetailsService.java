@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component("userDetailsService")
 public class UserModelDetailsService implements UserDetailsService {
@@ -37,12 +36,13 @@ public class UserModelDetailsService implements UserDetailsService {
         if (!user.isActivated()) {
             throw new RuntimeException("User " + lowercaseLogin + " was not activated");
         }
-        List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
-                .map(authority -> new SimpleGrantedAuthority(authority.getName()))
-                .collect(Collectors.toList());
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),
+        // Use the role field as the authority
+        List<GrantedAuthority> grantedAuthorities = List.of(new SimpleGrantedAuthority(user.getRole()));
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
                 user.getPassword(),
-                grantedAuthorities);
+                grantedAuthorities
+        );
     }
 }
 

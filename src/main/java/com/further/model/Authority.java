@@ -5,14 +5,28 @@ import java.util.Objects;
 @Entity
 @Table
 public class Authority {
-   
+
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "id")
-   private Long authority_id;
-   @Column(name = "name", unique = true)
+   private Long authorityId;
 
+   @Column(name = "name", unique = true)
    private String name;
+
+   public Authority() {}
+
+   public Authority(String name) {
+      this.name = name;
+   }
+
+   public Long getAuthorityId() {
+      return authorityId;
+   }
+
+   public void setAuthorityId(Long authorityId) {
+      this.authorityId = authorityId;
+   }
 
    public String getName() {
       return name;
@@ -22,16 +36,12 @@ public class Authority {
       this.name = name;
    }
 
-   public Authority(String name) {
-      this.name = name;
-   }
-
    @Override
    public boolean equals(Object o) {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
       Authority authority = (Authority) o;
-      return name.equals(authority.name);
+      return Objects.equals(name, authority.name);
    }
 
    @Override
@@ -42,7 +52,8 @@ public class Authority {
    @Override
    public String toString() {
       return "Authority{" +
-         "name=" + name +
+         "authorityId=" + authorityId +
+         ", name='" + name + '\'' +
          '}';
    }
 }

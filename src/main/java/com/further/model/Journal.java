@@ -11,62 +11,68 @@ public class Journal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "journal_id")
-    private Long journal_id;
+    private Long journalId;
 
-    private Long user_id;
-    private String entry_subject;
-    private String entry_data;
-    private LocalDate entry_date;
+    @Column(name = "user_id")
+    private Long userId;
 
-    public Journal(Long journal_id, Long user_id, String entry_subject, String entry_data, LocalDate entry_date) {
-        this.journal_id = journal_id;
-        this.user_id = user_id;
-        this.entry_subject = entry_subject;
-        this.entry_data = entry_data;
-        this.entry_date = entry_date;
+    @Column(name = "entry_subject")
+    private String entrySubject;
+
+    @Column(name = "entry_data")
+    private String entryData;
+
+    @Column(name = "entry_date")
+    private LocalDate entryDate;
+
+    public Journal(Long journalId, Long userId, String entrySubject, String entryData, LocalDate entryDate) {
+        this.journalId = journalId;
+        this.userId = userId;
+        this.entrySubject = entrySubject;
+        this.entryData = entryData;
+        this.entryDate = entryDate;
     }
 
-    public Journal() {
+    public Journal() {}
+
+    public Long getJournalId() {
+        return journalId;
     }
 
-    public Long getJournal_id() {
-        return journal_id;
+    public void setJournalId(Long journalId) {
+        this.journalId = journalId;
     }
 
-    public void setEntry_id(Long journal_id) {
-        this.journal_id = journal_id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public Long getUser_id() {
-        return user_id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public String getEntrySubject() {
+        return entrySubject;
     }
 
-    public String getEntry_subject() {
-        return entry_subject;
+    public void setEntrySubject(String entrySubject) {
+        this.entrySubject = entrySubject;
     }
 
-    public void setEntry_subject(String entry_subject) {
-        this.entry_subject = entry_subject;
+    public String getEntryData() {
+        return entryData;
     }
 
-    public String getEntry_data() {
-        return entry_data;
+    public void setEntryData(String entryData) {
+        this.entryData = entryData;
     }
 
-    public void setEntry_data(String entry_data) {
-        this.entry_data = entry_data;
+    public LocalDate getEntryDate() {
+        return entryDate;
     }
 
-    public LocalDate getEntry_date() {
-        return entry_date;
-    }
-
-    public void setEntry_date(LocalDate entry_date) {
-        this.entry_date = entry_date;
+    public void setEntryDate(LocalDate entryDate) {
+        this.entryDate = entryDate;
     }
 
 }

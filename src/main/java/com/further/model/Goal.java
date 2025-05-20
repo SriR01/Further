@@ -10,37 +10,43 @@ public class Goal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "goal_id")
-    private Long goal_id;
+    private Long goalId;
 
-    private Long user_id;
+    @Column(name = "user_id")
+    private Long userId;
+
     private String goal;
-    private String goal_type;
-    private LocalDate date_created;
 
-    public Goal(Long goal_id, Long user_id, String goal, String goal_type, LocalDate date_created) {
-        this.goal_id = goal_id;
-        this.user_id = user_id;
+    @Column(name = "goal_type")
+    private String goalType;
+
+    @Column(name = "date_created")
+    private LocalDate dateCreated;
+
+    public Goal(Long goalId, Long userId, String goal, String goalType, LocalDate dateCreated) {
+        this.goalId = goalId;
+        this.userId = userId;
         this.goal = goal;
-        this.goal_type = goal_type;
-        this.date_created = date_created;
-    }
-    
-    public Goal() {
+        this.goalType = goalType;
+        this.dateCreated = dateCreated;
     }
 
-    public Long getGoal_Id() {
-        return goal_id;
+    public Goal() {}
+
+    public Long getGoalId() {
+        return goalId;
     }
 
-    public void setId(Long goal_id) {
-        this.goal_id = goal_id;
+    public void setGoalId(Long goalId) {
+        this.goalId = goalId;
     }
 
-    public Long getUser_id() {
-        return user_id;
+    public Long getUserId() {
+        return userId;
     }
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getGoal() {
@@ -51,20 +57,19 @@ public class Goal {
         this.goal = goal;
     }
 
-    public String getGoal_type() {
-        return goal_type;
+    public String getGoalType() {
+        return goalType;
     }
 
-    public void setGoal_type(String goal_type) {
-        this.goal_type = goal_type;
+    public void setGoalType(String goalType) {
+        this.goalType = goalType;
     }
 
-    public LocalDate getDate_created() {
-        return date_created;
+    public LocalDate getDateCreated() {
+        return dateCreated;
     }
 
-    public void setDate_created(LocalDate date_created) {
-        this.date_created = date_created;
+    public void setDateCreated(LocalDate dateCreated) {
+        this.dateCreated = dateCreated;
     }
-
 }
