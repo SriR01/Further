@@ -10,8 +10,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Set;
 
 /**
  * Filters incoming requests and installs a Spring Security principal if a header corresponding to a valid user is
@@ -23,28 +25,43 @@ public class JWTFilter extends GenericFilterBean {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
 
-    private TokenProvider tokenProvider;
+    private final TokenProvider tokenProvider;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    public JWTFilter(TokenProvider tokenProvider) {
+    // Endpoints to skip JWT authentication
+    private static final Set<String> PUBLIC_ENDPOINTS = Set.of("/register", "/login");
+
+    public JWTFilter(TokenProvider tokenProvider, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
         this.tokenProvider = tokenProvider;
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-        String jwt = resolveToken(httpServletRequest);
-        String requestURI = httpServletRequest.getRequestURI();
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
+
+        String path = request.getServletPath();
+        if (PUBLIC_ENDPOINTS.contains(path)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        String jwt = resolveToken(request);
+        String requestURI = request.getRequestURI();
 
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
             Authentication authentication = tokenProvider.getAuthentication(jwt);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            LOG.debug("set Authentication to com.techelevator.security context for '{}', uri: {}", authentication.getName(), requestURI);
+            LOG.debug("set Authentication to security context for '{}', uri: {}", authentication.getName(), requestURI);
         } else {
             LOG.debug("no valid JWT token found, uri: {}", requestURI);
+            jwtAuthenticationEntryPoint.commence(request, response, null);
+            return;  // important: end the chain to avoid 'response already committed'
         }
 
-        filterChain.doFilter(servletRequest, servletResponse);
+        filterChain.doFilter(request, response);
     }
 
     private String resolveToken(HttpServletRequest request) {
@@ -54,5 +71,4 @@ public class JWTFilter extends GenericFilterBean {
         }
         return null;
     }
-
 }

@@ -1,14 +1,16 @@
 package com.further.controller;
     
+import com.further.dto.SetTodayRoutineRequest;
 import com.further.model.RoutineDt;
 import com.further.repository.RoutineDtRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8088")
 @RequestMapping("/routine-dt")
 public class RoutineDtController {
 
@@ -44,13 +46,23 @@ public class RoutineDtController {
     public RoutineDt getRoutineDtById(@PathVariable Long routine_dt_id) {
         return routineDtRepository.findById(routine_dt_id).orElse(null);
     }
-    
 
-    // If you want to query by userId and date, make sure your repository has this method:
-    // Optional<RoutineDt> findByUserIdAndDateCurrent(int userId, LocalDate dateCurrent);
-    // And then:
-    // @GetMapping("/{userId}/{dateValue}")
-    // public RoutineDt getRoutineDtByUserIdAndDateValue(@PathVariable int userId, @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateValue){
-    //     return routineDtRepository.findByUserIdAndDateCurrent(userId, dateValue).orElse(null);
-    // }
+    @PostMapping("/set-today")
+    public ResponseEntity<?> setTodayRoutineDt(@RequestBody SetTodayRoutineRequest req) {
+        LocalDate date;
+        try {
+            date = LocalDate.parse(req.getDate());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Invalid date format. Use YYYY-MM-DD.");
+        }
+
+        RoutineDt routineDt = routineDtRepository
+            .findByUserIdAndDateCurrent(req.getUserId(), date)
+            .orElse(new RoutineDt());
+        routineDt.setUserId(req.getUserId());
+        routineDt.setDateCurrent(date);
+        routineDt.setRoutineId(req.getRoutineId());
+        routineDtRepository.save(routineDt);
+        return ResponseEntity.ok(routineDt);
+    }
 }

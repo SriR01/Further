@@ -4,7 +4,6 @@ import com.further.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8088")
 @RequestMapping("/user")
 public class UserController {
 

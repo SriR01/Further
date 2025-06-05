@@ -1,4 +1,5 @@
 package com.further.controller;
+
 import com.further.model.User;
 import com.further.repository.UserRepository;
 import org.springframework.http.HttpHeaders;
@@ -16,19 +17,21 @@ import jakarta.validation.Valid;
 import com.further.dto.LoginDto;
 import com.further.dto.LoginResponseDto;
 import com.further.dto.RegisterUserDto;
+import org.springframework.security.crypto.password.PasswordEncoder; // Import PasswordEncoder
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8088")
 public class AuthenticationController {
 
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder; // Declare PasswordEncoder
 
-    public AuthenticationController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder, UserRepository userRepository) {
+    public AuthenticationController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.tokenProvider = tokenProvider;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder; // Inject PasswordEncoder
     }
 
     @PostMapping("/login")
@@ -36,6 +39,8 @@ public class AuthenticationController {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
 
+        // This is where the PasswordEncoder is used by Spring Security internally
+        // when it tries to match the provided password with the stored password.
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.createToken(authentication, false);
@@ -45,7 +50,6 @@ public class AuthenticationController {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-        // Ensure that LoginResponseDto has a constructor that accepts (String, User)
         return new ResponseEntity<LoginResponseDto>(new LoginResponseDto(jwt, user), httpHeaders, HttpStatus.OK);
     }
 
@@ -55,12 +59,12 @@ public class AuthenticationController {
         if (userRepository.findByUsername(newUser.getUsername()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Already Exists.");
         }
-        // You should encode the password and assign authorities here!
         User user = new User();
         user.setUsername(newUser.getUsername());
-        user.setPassword(newUser.getPassword()); // TODO: encode password!
+        // Fix: Encode the password before saving!
+        user.setPassword(passwordEncoder.encode(newUser.getPassword()));
         user.setActivated(true);
-        // Set authorities/roles as needed
+        user.setRole("USER");
         userRepository.save(user);
     }
 }

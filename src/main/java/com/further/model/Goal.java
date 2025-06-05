@@ -1,7 +1,7 @@
 package com.further.model;
+
 import java.time.LocalDate;
 import jakarta.persistence.*;
-
 
 @Entity
 @Table(name = "goals")
@@ -23,6 +23,12 @@ public class Goal {
     @Column(name = "date_created")
     private LocalDate dateCreated;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "routine_id", nullable = true) // allows goal to exist without a routine
+    private Routine routine;
+
+    public Goal() {}
+
     public Goal(Long goalId, Long userId, String goal, String goalType, LocalDate dateCreated) {
         this.goalId = goalId;
         this.userId = userId;
@@ -30,8 +36,6 @@ public class Goal {
         this.goalType = goalType;
         this.dateCreated = dateCreated;
     }
-
-    public Goal() {}
 
     public Long getGoalId() {
         return goalId;
@@ -71,5 +75,13 @@ public class Goal {
 
     public void setDateCreated(LocalDate dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public Routine getRoutine() {
+        return routine;
+    }
+
+    public void setRoutine(Routine routine) {
+        this.routine = routine;
     }
 }

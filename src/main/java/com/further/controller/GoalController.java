@@ -7,7 +7,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/goals")
-@CrossOrigin(origins = "http://localhost:8088")
 public class GoalController {
 
     private final GoalRepository goalRepository;
@@ -38,7 +37,7 @@ public class GoalController {
         return goalRepository.findById(goal_id).orElse(null);
     }
 
-    @GetMapping("/users/{user_id}")
+    @GetMapping("/user/{user_id}")
     public List<Goal> getAllGoalsByUserId(@PathVariable Long user_id) {
         return goalRepository.findByUserId(user_id);
     }

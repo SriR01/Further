@@ -8,7 +8,6 @@ import java.util.List;
 import java.time.LocalDate;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8088")
 @RequestMapping("/journals")
 public class JournalController {
 

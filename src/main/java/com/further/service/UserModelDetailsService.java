@@ -16,7 +16,6 @@ import java.util.List;
 public class UserModelDetailsService implements UserDetailsService {
 
     private final Logger log = LoggerFactory.getLogger(UserModelDetailsService.class);
-
     private final UserRepository userRepository;
 
     public UserModelDetailsService(UserRepository userRepository) {
@@ -27,8 +26,10 @@ public class UserModelDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String login) {
         log.debug("Authenticating user '{}'", login);
         String lowercaseLogin = login.toLowerCase();
+
         User user = userRepository.findByUsername(lowercaseLogin)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
         return createSpringSecurityUser(lowercaseLogin, user);
     }
 
@@ -36,8 +37,13 @@ public class UserModelDetailsService implements UserDetailsService {
         if (!user.isActivated()) {
             throw new RuntimeException("User " + lowercaseLogin + " was not activated");
         }
-        // Use the role field as the authority
-        List<GrantedAuthority> grantedAuthorities = List.of(new SimpleGrantedAuthority(user.getRole()));
+
+        // Prefix role with "ROLE_" if not already prefixed
+        String rawRole = user.getRole();
+        String roleWithPrefix = rawRole.startsWith("ROLE_") ? rawRole : "ROLE_" + rawRole;
+
+        List<GrantedAuthority> grantedAuthorities = List.of(new SimpleGrantedAuthority(roleWithPrefix));
+
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
@@ -45,4 +51,3 @@ public class UserModelDetailsService implements UserDetailsService {
         );
     }
 }
-

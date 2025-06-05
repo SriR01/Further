@@ -1,18 +1,25 @@
 package com.further.controller;
+import com.further.model.Routine;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.further.repository.CalendarDtRepository;
 import com.further.model.CalendarDt;
+import com.further.dto.SetTodayRoutineRequest;
+import com.further.repository.RoutineRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDate;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8088")
 @RequestMapping("/calendardt")
 public class CalendarDtController {
 
     private final CalendarDtRepository calendarDtRepository;
+
+    @Autowired
+    private RoutineRepository routineRepository;
 
     @Autowired
     public CalendarDtController(CalendarDtRepository calendarDtRepository) {
@@ -52,5 +59,22 @@ public class CalendarDtController {
     public CalendarDt getCalendarDtFromDateId(@PathVariable Long date_id) {
         Optional<CalendarDt> result = calendarDtRepository.findById(date_id);
         return result.orElse(null);
+    }
+
+    @PostMapping("/set-today")
+    public ResponseEntity<?> setTodayRoutine(@RequestBody SetTodayRoutineRequest req) {
+        CalendarDt calendarDt = calendarDtRepository
+            .findByUserIdAndDates(req.getUserId(), LocalDate.parse(req.getDate()))
+            .orElse(new CalendarDt());
+        calendarDt.setUserId(req.getUserId());
+        calendarDt.setDates(LocalDate.parse(req.getDate()));
+
+        // Fetch the Routine entity using the routineId
+        Routine routine = routineRepository.findById(req.getRoutineId())
+            .orElseThrow(() -> new RuntimeException("Routine not found"));
+        calendarDt.setRoutine(routine);
+
+        calendarDtRepository.save(calendarDt);
+        return ResponseEntity.ok(calendarDt);
     }
 }

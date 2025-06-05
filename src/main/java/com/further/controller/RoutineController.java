@@ -2,12 +2,12 @@ package com.further.controller;
 import com.further.model.Routine;
 import com.further.repository.RoutineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8088")
 @RequestMapping("/routine")
 public class RoutineController {
 
@@ -40,7 +40,8 @@ public class RoutineController {
     }
 
     @GetMapping("/user/{user_id}")
-    public List<Routine> getAllRoutinesByUserId(@PathVariable Long user_id) {
-        return routineRepository.findByUserId(user_id);
+    public ResponseEntity<List<Routine>> getAllRoutinesByUserId(@PathVariable("user_id") Long userId) {
+        List<Routine> routines = routineRepository.findByUserId(userId);
+        return ResponseEntity.ok(routines);
     }
 }

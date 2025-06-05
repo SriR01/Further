@@ -5,7 +5,8 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "calendar_dt")
-public class CalendarDt {
+public class
+CalendarDt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

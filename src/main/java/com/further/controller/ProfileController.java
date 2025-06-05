@@ -5,7 +5,6 @@ import com.further.repository.ProfileRepository;
 import com.further.model.Profile;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8088")
 @RequestMapping("/profile")
 public class ProfileController {
 

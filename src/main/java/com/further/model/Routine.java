@@ -1,6 +1,8 @@
 package com.further.model;
 
 import java.sql.Timestamp;
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -23,6 +25,9 @@ public class Routine {
 
     @Column(name = "end_time")
     private Timestamp endTime;
+
+    @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Goal> goals;
 
     @Column(name = "goal_1")
     private String goal1;
