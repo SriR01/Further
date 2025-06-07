@@ -19,16 +19,15 @@ CalendarDt {
     private LocalDate dates;
 
     @ManyToOne
-    @JoinColumn(name = "routine_id", referencedColumnName = "routine_id")
-    private Routine routine;
+    private RoutineDt routineDt;
 
     public CalendarDt() {}
 
-    public CalendarDt(Long dateId, Long userId, LocalDate dates, Routine routine) {
+    public CalendarDt(Long dateId, Long userId, LocalDate dates, RoutineDt routineDt) {
         this.dateId = dateId;
         this.userId = userId;
         this.dates = dates;
-        this.routine = routine;
+        this.routineDt = routineDt;
     }
 
     public Long getDateId() {
@@ -55,11 +54,11 @@ CalendarDt {
         this.dates = dates;
     }
 
-    public Routine getRoutine() {
-        return routine;
+    public RoutineDt getRoutineDt() {
+        return routineDt;
     }
 
-    public void setRoutine(Routine routine) {
-        this.routine = routine;
+    public void setRoutineDt(RoutineDt routineDt) {
+        this.routineDt = routineDt;
     }
 }

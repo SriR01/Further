@@ -37,6 +37,13 @@
         >Tracking</router-link
       >
       <router-link
+        v-bind:to="{ name: 'Profile', params: { userId: $store.state.user.id } }"
+        v-if="$store.state.token != ''"
+        class="nav-link"
+        style="color: white"
+        >Profile</router-link
+      >
+      <router-link
         v-bind:to="{ name: 'logout' }"
         v-if="$store.state.token != ''"
         class="nav-link"

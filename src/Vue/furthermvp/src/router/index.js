@@ -7,6 +7,8 @@ import RoutinePage from '../components/RoutinePage.vue';
 import CalendarPage from '../components/CalendarPage.vue';
 import Logout from '../components/Logout.vue';
 import Register from '../components/Register.vue';
+import TrackingDetailsPage from '../components/TrackingDetailsPage.vue';
+import Profile from '../components/Profile.vue'; // <-- Add this import
 
 const routes = [
   { path: '/', name: 'home', component: FurtherMainPage },
@@ -16,6 +18,18 @@ const routes = [
   { path: '/calendar', name: 'calendar', component: CalendarPage },
   { path: '/logout', name: 'logout', component: Logout },
   { path: '/register', name: 'register', component: Register },
+  {
+    path: '/tracking-details/:userId/:date',
+    name: 'TrackingDetailsPage',
+    component: TrackingDetailsPage,
+    props: true,
+  },
+  {
+    path: '/profile/:userId',
+    name: 'Profile',
+    component: Profile,
+    props: route => ({ userId: Number(route.params.userId) }), // <-- fix here
+  },
 ];
 
 const router = createRouter({

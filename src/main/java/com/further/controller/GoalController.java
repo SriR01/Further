@@ -1,8 +1,10 @@
 package com.further.controller;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.further.repository.GoalRepository;
 import com.further.model.Goal;
+
 import java.util.List;
 
 @RestController

@@ -1,4 +1,5 @@
 package com.further.model;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 
@@ -12,15 +13,18 @@ public class Profile {
     private Long profileId;
 
     @Column(name = "user_id")
+    @JsonProperty("user_id")
     private Long userId;
 
     private String bio;
     private String email;
 
     @Column(name = "first_name")
+    @JsonProperty("first_name")
     private String firstName;
 
     @Column(name = "last_name")
+    @JsonProperty("last_name")
     private String lastName;
 
     public Profile(Long profileId, Long userId, String bio, String email, String firstName, String lastName) {

@@ -2,7 +2,7 @@
   <div class="container">
     <h1>Goal List</h1>
     <h3>Create goals that attribute to your <b>daily</b> success</h3>
-    <form @submit.prevent="submitForm">
+    <form @submit.prevent>
       <div class="goal-cards">
         <div v-for="(todo, index) in todos" :key="index" class="goal-card">
           <div class="goal-info">
@@ -15,24 +15,24 @@
             <input
               class="input input-large"
               type="text"
-              v-model="todo.goalType"
+              v-model="todo.goal_type"
               placeholder="Enter area of improvement"
             />
             <input
               class="input"
               type="date"
-              v-model="todo.dateCreated"
+              v-model="todo.date_created"
               placeholder="Date created"
               readonly
             />
           </div>
           <div class="goal-actions">
             <label>
-              <input type="checkbox" v-model="todo.private" /> Private
+              <input type="checkbox" v-model="todo.private_goal" /> Private
             </label>
-            <button v-if="!todo.goalId" @click="saveTodo(index)">Save</button>
-            <button v-else @click="updateTodo(index, todo.goalId)">Save</button>
-            <button class="delete" @click="deleteTodo(index, todo.goalId)">
+            <button v-if="!todo.goal_id" @click="saveTodo(index)">Save</button>
+            <button v-else @click="updateTodo(index, todo.goal_id)">Save</button>
+            <button class="delete" @click="deleteTodo(index, todo.goal_id)">
               Delete
             </button>
           </div>
@@ -57,19 +57,23 @@ export default {
   },
   methods: {
     addTodo() {
+      if (!this.userId) {
+        alert("User not found. Please log in.");
+        return;
+      }
       const currentDate = new Date().toISOString().split("T")[0];
       const newTodo = {
         goal: "",
-        goalType: "",
-        dateCreated: currentDate,
-        private: false,
-        userId: this.userId,
+        goal_type: "",
+        date_created: currentDate,
+        private_goal: false,
+        user_id: this.userId,
       };
       this.todos.push(newTodo);
     },
     saveTodo(index) {
       const todo = this.todos[index];
-      if (todo.goal && todo.goalType) {
+      if (todo.goal && todo.goal_type) {
         axios
           .post(`${API_URL}/goals`, todo)
           .then((response) => {
@@ -83,23 +87,11 @@ export default {
         console.error("Please fill in all fields.");
       }
     },
-    deleteTodo(index, goalId) {
-      axios
-        .delete(`${API_URL}/goals/delete/${goalId}`)
-        .then((response) => {
-          this.todos.splice(index, 1);
-          console.log(response.data);
-          window.location.reload();
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
-    updateTodo(index, goalId) {
+    updateTodo(index, goal_id) {
       const updatedTodo = this.todos[index];
-      if (updatedTodo.goal && updatedTodo.goalType) {
+      if (updatedTodo.goal && updatedTodo.goal_type) {
         axios
-          .put(`${API_URL}/goals/${goalId}`, updatedTodo)
+          .put(`${API_URL}/goals/${goal_id}`, updatedTodo)
           .then((response) => {
             console.log(response.data);
             window.location.reload();
@@ -111,17 +103,29 @@ export default {
         console.error("Please fill in all fields.");
       }
     },
-    submitForm() {
-      console.log("Submitting form");
-      // No form-level action currently
+    deleteTodo(index, goal_id) {
+      axios
+        .delete(`${API_URL}/goals/delete/${goal_id}`)
+        .then((response) => {
+          this.todos.splice(index, 1);
+          console.log(response.data);
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
     fetchUserTodos() {
       axios
         .get(`${API_URL}/goals/user/${this.userId}`)
         .then((response) => {
           this.todos = response.data.map((todo) => ({
-            ...todo,
-            goalId: todo.goalId,
+            goal_id: todo.goalId ?? todo.goal_id,
+            goal: todo.goal,
+            goal_type: todo.goal_type,
+            date_created: todo.date_created,
+            private_goal: todo.privateGoal ?? todo.private_goal,
+            user_id: todo.user_id,
           }));
         })
         .catch((error) => {

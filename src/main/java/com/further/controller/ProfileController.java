@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.*;
 import com.further.repository.ProfileRepository;
 import com.further.model.Profile;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/profile")
 public class ProfileController {
@@ -21,9 +23,21 @@ public class ProfileController {
     }
 
     @PutMapping("/{user_id}")
-    public Profile updateProfile(@PathVariable Long user_id, @RequestBody Profile profile) {
-        profile.setUserId(user_id);
-        return profileRepository.save(profile);
+    public Profile updateProfile(@PathVariable("user_id") Long userId, @RequestBody Profile profile) {
+        Optional<Profile> existing = profileRepository.findByUserId(userId);
+        if (existing.isPresent()) {
+            Profile existingProfile = existing.get();
+            existingProfile.setBio(profile.getBio());
+            existingProfile.setEmail(profile.getEmail());
+            existingProfile.setFirstName(profile.getFirstName());
+            existingProfile.setLastName(profile.getLastName());
+            // ... any other fields ...
+            return profileRepository.save(existingProfile);
+        } else {
+            // Set the userId to ensure it's correct
+            profile.setUserId(userId);
+            return profileRepository.save(profile);
+        }
     }
 
     @DeleteMapping("/delete/{user_id}")
@@ -32,7 +46,7 @@ public class ProfileController {
     }
 
     @GetMapping("/{user_id}")
-    public Profile getProfileByUserId(@PathVariable Long user_id) {
-        return profileRepository.findById(user_id).orElse(null);
+    public Profile getProfileByUserId(@PathVariable("user_id") Long userId) {
+        return profileRepository.findByUserId(userId).orElse(null);
     }
 }

@@ -18,27 +18,28 @@
           </div>
           <div class="detail-item">
             <h5>Start Time</h5>
-            <p>{{ getFormattedTime(trackingData.start_time) }}</p>
+            <p>{{ getFormattedTime(routineDt.start_time) }}</p>
           </div>
           <div class="detail-item">
             <h5>End Time</h5>
-            <p>{{ getFormattedTime(trackingData.end_time) }}</p>
+            <p>{{ getFormattedTime(routineDt.end_time) }}</p>
           </div>
         </div>
       </div>
     </div>
     <div class="card goals-card">
       <h5 class="card-title">Goals</h5>
-      <div class="goals">
+      <div class="goals" v-if="goalsLoaded">
         <div :class="['goal-box', { completed: routineDt.goal_1_flag }]">
-          <p class="goal-text">Goal 1: {{ trackingData.goal_1 }}</p>
+          <p class="goal-text">Goal 1: {{ trackingData.goal1 }}</p>
           <p class="goal-text">
             Complete?:
             <input
               type="checkbox"
               v-model="routineDt.goal_1_flag"
               @change="
-                updateGoalFlagTime('goal_1_flag_time', routineDt.goal_1_flag)
+                updateGoalFlagTime('goal_1_flag_time', routineDt.goal_1_flag);
+                updateRoutine();
               "
             />
           </p>
@@ -47,14 +48,15 @@
           </p>
         </div>
         <div :class="['goal-box', { completed: routineDt.goal_2_flag }]">
-          <p class="goal-text">Goal 2: {{ trackingData.goal_2 }}</p>
+          <p class="goal-text">Goal 2: {{ trackingData.goal2 }}</p>
           <p class="goal-text">
             Complete?:
             <input
               type="checkbox"
               v-model="routineDt.goal_2_flag"
               @change="
-                updateGoalFlagTime('goal_2_flag_time', routineDt.goal_2_flag)
+                updateGoalFlagTime('goal_2_flag_time', routineDt.goal_2_flag);
+                updateRoutine();
               "
             />
           </p>
@@ -63,14 +65,15 @@
           </p>
         </div>
         <div :class="['goal-box', { completed: routineDt.goal_3_flag }]">
-          <p class="goal-text">Goal 3: {{ trackingData.goal_3 }}</p>
+          <p class="goal-text">Goal 3: {{ trackingData.goal3 }}</p>
           <p class="goal-text">
             Complete?:
             <input
               type="checkbox"
               v-model="routineDt.goal_3_flag"
               @change="
-                updateGoalFlagTime('goal_3_flag_time', routineDt.goal_3_flag)
+                updateGoalFlagTime('goal_3_flag_time', routineDt.goal_3_flag);
+                updateRoutine();
               "
             />
           </p>
@@ -79,14 +82,15 @@
           </p>
         </div>
         <div :class="['goal-box', { completed: routineDt.goal_4_flag }]">
-          <p class="goal-text">Goal 4: {{ trackingData.goal_4 }}</p>
+          <p class="goal-text">Goal 4: {{ trackingData.goal4 }}</p>
           <p class="goal-text">
             Complete?:
             <input
               type="checkbox"
               v-model="routineDt.goal_4_flag"
               @change="
-                updateGoalFlagTime('goal_4_flag_time', routineDt.goal_4_flag)
+                updateGoalFlagTime('goal_4_flag_time', routineDt.goal_4_flag);
+                updateRoutine();
               "
             />
           </p>
@@ -95,14 +99,15 @@
           </p>
         </div>
         <div :class="['goal-box', { completed: routineDt.goal_5_flag }]">
-          <p class="goal-text">Goal 5: {{ trackingData.goal_5 }}</p>
+          <p class="goal-text">Goal 5: {{ trackingData.goal5 }}</p>
           <p class="goal-text">
             Complete?:
             <input
               type="checkbox"
               v-model="routineDt.goal_5_flag"
               @change="
-                updateGoalFlagTime('goal_5_flag_time', routineDt.goal_5_flag)
+                updateGoalFlagTime('goal_5_flag_time', routineDt.goal_5_flag);
+                updateRoutine();
               "
             />
           </p>
@@ -111,6 +116,7 @@
           </p>
         </div>
       </div>
+      <div v-else class="loading-message">Loading goals...</div>
     </div>
     <div
       class="card won-day-card"
@@ -166,6 +172,7 @@
         Delete Journal
       </button>
     </div>
+    <button @click="handleBack">Back</button>
   </div>
 </template>
 
@@ -182,8 +189,9 @@ export default {
   },
   data() {
     return {
-      userId: store.state.user.id,
+      userId: this.$route.params.userId || store.state.user.id,
       trackingData: {},
+      goalsLoaded: false,
       journals: [
         {
           entry_subject: "",
@@ -191,11 +199,13 @@ export default {
           entry_date: "",
         },
       ],
-      journalData: null, // Add this line
+      journalData: null,
       routineDt: {
         routine_id: "",
-        user_id: store.state.user.id,
+        user_id: this.$route.params.userId || store.state.user.id,
         date_current: this.parsedDate,
+        start_time: "",
+        end_time: "",
         goal_1_flag: false,
         goal_2_flag: false,
         goal_3_flag: false,
@@ -213,7 +223,7 @@ export default {
   },
   computed: {
     parsedDate() {
-      return this.getParsedDate();
+      return this.$route.params.date || "";
     },
     areNoGoalsMarked() {
       return (
@@ -226,36 +236,39 @@ export default {
     },
   },
   methods: {
-    getParsedDate() {
-      if (this.$route.params.calendarDt) {
-        try {
-          const calendarDt = JSON.parse(this.$route.params.calendarDt);
-          const date = calendarDt.dates ? new Date(calendarDt.dates) : null;
-          return date ? date.toISOString().split("T")[0] : "";
-        } catch (error) {
-          console.error("Failed to parse calendarDt:", error);
-        }
-      }
-      console.log("Empty Date");
-      return "";
-    },
     async fetchRoutineDtData(userId, date) {
-      const endpoint = `${API_URL}/routine-dt/${userId}/${date}`;
+      const endpoint = `${API_URL}/routine-dt/user/${userId}/date/${date}`;
       try {
         const response = await axios.get(endpoint);
         const routineDt = response.data;
-        if (routineDt != "") {
-          this.routineDt = routineDt;
+        if (routineDt) {
+          Object.assign(this.routineDt, routineDt);
+          if (routineDt.routine_id) {
+            await this.fetchRoutineData(routineDt.routine_id);
+          }
         }
       } catch (error) {
         console.error("Failed to fetch routineDt data:", error);
       }
     },
-    async saveJournal(index) {
-      const calendarDt = JSON.parse(this.$route.params.calendarDt);
-      const date = calendarDt.dates ? new Date(calendarDt.dates) : null;
+    async fetchRoutineData(routineId) {
       try {
-        const response = await axios.post("${API_URL}/journals", {
+        const response = await axios.get(
+          `${API_URL}/routine/${routineId}`
+        );
+        this.trackingData = response.data; // from /routine/{routineId}
+        this.goalsLoaded = true;
+        // Debug log:
+        console.log("Routine data loaded:", this.trackingData);
+      } catch (error) {
+        console.error("Failed to fetch routine data:", error);
+        this.goalsLoaded = false;
+      }
+    },
+    async saveJournal(index) {
+      const date = this.parsedDate;
+      try {
+        const response = await axios.post(`${API_URL}/journals`, {
           user_id: this.userId,
           entry_subject: this.journals[index].entry_subject,
           entry_data: this.journals[index].entry_data,
@@ -268,16 +281,20 @@ export default {
       }
     },
     async startRoutine() {
-      const parsedDate = this.getParsedDate();
-      if (parsedDate !== "") {
-        this.routineDt.date_current = parsedDate;
+      const date = this.parsedDate;
+      if (date !== "") {
+        this.routineDt.date_current = date;
         try {
           const response = await axios.post(
-            "${API_URL}/routine-dt",
+            `${API_URL}/routine-dt`,
             this.routineDt
           );
           console.log("Routine started:", response.data);
           this.routineDt.routine_id = response.data.routine_id;
+          // Fetch routine data after starting
+          if (this.routineDt.routine_id) {
+            await this.fetchRoutineData(this.routineDt.routine_id);
+          }
         } catch (error) {
           console.error("Failed to start routine:", error);
         }
@@ -299,8 +316,9 @@ export default {
           win_flag_time: formatTime(this.routineDt.win_flag_time),
         };
 
+        const routineDtId = this.routineDt.routine_dt_id; // or routineDtId, depending on your property name
         const response = await axios.put(
-          "${API_URL}/routine-dt",
+          `${API_URL}/routine-dt/${routineDtId}`,
           requestData
         );
         console.log("Routine updated:", response.data);
@@ -316,9 +334,13 @@ export default {
         this.routineDt[goalFlagTimesKey] = "";
       }
 
-      const checkedGoals = Object.values(this.routineDt).filter(
-        (value) => value === true
-      ).length;
+      const checkedGoals = [
+        this.routineDt.goal_1_flag,
+        this.routineDt.goal_2_flag,
+        this.routineDt.goal_3_flag,
+        this.routineDt.goal_4_flag,
+        this.routineDt.goal_5_flag,
+      ].filter(Boolean).length;
 
       if (checkedGoals >= 3) {
         this.routineDt.win_flag = true;
@@ -332,7 +354,7 @@ export default {
     },
     async fetchJournalData() {
       try {
-        const formattedDate = moment(this.getParsedDate()).format("YYYY-MM-DD");
+        const formattedDate = this.parsedDate;
         const response = await axios.get(
           `${API_URL}/journals/${this.userId}/${formattedDate}`
         );
@@ -341,17 +363,8 @@ export default {
         console.error("Failed to fetch journal data:", error);
       }
     },
-    async fetchRoutineData(routineId) {
-      try {
-        const response = await axios.get(
-          `${API_URL}/routine/${routineId}`
-        );
-        this.trackingData = response.data;
-      } catch (error) {
-        console.error("Failed to fetch routine data:", error);
-      }
-    },
     getFormattedTime(time) {
+      if (!time) return "";
       const formattedTime = new Date(time).toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
@@ -364,37 +377,60 @@ export default {
           `${API_URL}/journals/delete/${entryId}`
         );
         console.log("Journal entry deleted:", response.data);
-
-        // Remove the routine card from the HTML
         this.journalData = null;
       } catch (error) {
         console.error("Failed to delete journal entry:", error);
       }
     },
+    async testFetchCalendarDt() {
+      const userId = this.userId;
+      const date = "2025-06-05";
+      try {
+        const response = await axios.get(
+          `${API_URL}/calendardt/user/${userId}/date/${date}`
+        );
+        console.log("Fetched CalendarDt:", response.data);
+      } catch (error) {
+        console.error("Error fetching CalendarDt:", error);
+      }
+    },
+    async resetRoutineDtForToday() {
+      const today = new Date();
+      const localDate = today.getFullYear() + '-' +
+        String(today.getMonth() + 1).padStart(2, '0') + '-' +
+        String(today.getDate()).padStart(2, '0');
+      await axios.put(`${API_URL}/calendardt/reset-routinedt`, null, {
+        params: {
+          userId: this.userId,
+          date: localDate
+        }
+      });
+      // Optionally refresh routines/calendar
+      this.$refs.routineList.fetchRoutines();
+      this.$refs.calendar.fetchCalendarDts();
+    },
+    async handleBack() {
+      // Reset the RoutineDt for this user and date
+      await axios.put(`${API_URL}/calendardt/reset-routinedt`, null, {
+        params: {
+          userId: this.userId,
+          date: this.parsedDate
+        }
+      });
+      // Optionally refresh routines/calendar if you have refs
+      // this.$refs.routineList.fetchRoutines();
+      // this.$refs.calendar.fetchCalendarDts();
+      // Navigate back
+      this.$router.back();
+    },
   },
   mounted() {
-    if (this.$route.params.calendarDt) {
-      try {
-        const calendarDt = JSON.parse(this.$route.params.calendarDt);
-        const routineId = calendarDt.routine_id;
-        const currentDate = new Date().toISOString().split("T")[0];
-
-        // Update routineId and date_current in routineDt
-        this.routineDt.routine_id = routineId;
-        this.routineDt.date_current = currentDate;
-
-        // Fetch routine data
-        this.fetchRoutineData(routineId);
-
-        // Fetch journal data
-        this.fetchJournalData();
-
-        this.fetchRoutineDtData(this.userId, this.parsedDate);
-      } catch (error) {
-        console.error("Failed to parse calendarDt:", error);
-      }
-    } else {
-      console.log("calendarDt is undefined");
+    const userId = this.$route.params.userId;
+    const date = this.$route.params.date;
+    console.log("Fetching RoutineDt for", userId, date);
+    if (userId && date) {
+      this.fetchRoutineDtData(userId, date);
+      this.fetchJournalData();
     }
   },
 };

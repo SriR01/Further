@@ -9,7 +9,11 @@
         <CreateRoutineCard @routineCreated="refreshRoutines" />
       </div>
       <div class="routine-list">
-        <RoutineList ref="routineList" @delete-routine="deleteRoutine" />
+        <RoutineList
+          ref="routineList"
+          :user-id="userId"
+          @delete-routine="deleteRoutine"
+        />
       </div>
     </div>
   </div>
@@ -31,6 +35,7 @@ export default {
   data() {
     return {
       routines: [],
+      todayRoutineId: null,
     };
   },
   methods: {
@@ -72,6 +77,10 @@ export default {
           alert("Error fetching routines: " + error);
           console.error("Error fetching routines:", error);
         });
+    },
+    setTodayRoutine(routineId) {
+      this.todayRoutineId = routineId;
+      // Optionally, you can also navigate to the routine details or perform other actions
     },
   },
 };

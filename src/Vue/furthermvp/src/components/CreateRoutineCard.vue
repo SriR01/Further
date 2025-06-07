@@ -61,6 +61,7 @@
           </div>
         </div>
       </div>
+      <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
     </div>
   </div>
 </template>
@@ -92,6 +93,7 @@ export default {
       startTime: "",
       endTime: "",
       selected: false,
+      successMessage: "",
     };
   },
   computed: {
@@ -124,10 +126,10 @@ export default {
       ).toISOString();
 
       const routine = {
-        userId: this.userId,
-        routineName: this.routineName,
-        startTime: startTime,
-        endTime: endTime,
+        user_id: this.userId,
+        routine_name: this.routineName,
+        start_time: startTime,
+        end_time: endTime,
         goal1: this.goals[0].goal,
         goal2: this.goals[1].goal,
         goal3: this.goals[2].goal,
@@ -138,9 +140,9 @@ export default {
       axios
         .post(`${API_URL}/routine`, routine)
         .then(() => {
-          console.log("Routine created successfully");
-          // Instead of reloading, emit an event so the parent can refresh the routine list.
+          this.successMessage = "Routine created and set as today!";
           this.$emit("routineCreated");
+          setTimeout(() => { this.successMessage = ""; }, 3000); // Hide after 3s
         })
         .catch((error) => {
           console.error("Error creating routine:", error);
@@ -282,5 +284,11 @@ label {
 
 .selected {
   border-color: #38b2ac;
+}
+
+.success-message {
+  color: #38b2ac;
+  font-weight: bold;
+  margin-top: 10px;
 }
 </style>
